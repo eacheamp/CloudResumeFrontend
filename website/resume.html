@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<html>
+<head>
+<title>Ernest Resume</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- https://codepen.io/jewel998/pen/PgydGj -->
+    <div id="inner-nav"></div>
+    <div id="container">
+        <div id="profile">
+            <div id="image">
+                <img id="profile-photo" src="./img/profile.jpeg" alt="Profile-Image">
+                    <a href="*"><i class="fas fa-pen stroke-transparent"></i></a>
+                </div>
+                
+            <p id="name">Ernest Acheampong<br><span id="emailabout">eacheamp@gmail.com</span></p>
+            <p id="more-about">You are site visitor number:  <span id="counter"></span></p>
+            <p id="about-link"><a href="https://www.linkedin.com/in/ernest-acheampong-54671511">linkedin</a></p>
+            <p id="about-link"><a href="https://github.com/eacheamp">github</a></p>
+            <p id="designation">Cloud Engineer<br><span id="college"></span></p>
+            <div id="social-links"><a href="#"><i class="fab fa-facebook-f stroke-transparent"></i></a><a><i class="fab fa-twitter stroke-transparent"></i></a><a><i class="fab fa-linkedin-in stroke-transparent"></i></a><a><i class="fab fa-github stroke-transparent"></i></a></div>
+    
+            <hr width="80%">
+            <div id="about">
+                <p style="display:inline;">Skills</p>
+                <a href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a>
+            </div>
+            <p id="more-about">IAC: AWS (CDK, Boto3), Terraform, Ansible</p>            
+            <p id="more-about">Python, Bash, Git</p>
+            <p id="more-about">SQL: Postgres, Redshift</p>
+            <p id="more-about">NoSQL: MongoDB</p>
+            <p id="more-about">Snyk, Jira, Agile </p> 
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="43b2f98a-5b93-47cf-9721-07e228b351af" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>           
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="100fe2e3-1c5f-430d-96ff-9cf45be1ab00" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+        </div>
+        <div id="info-cards">
+            
+        <div class="card">
+            <p><i class="fas fa-briefcase stroke-transparent"></i>&nbsp;&nbsp;&nbsp;Work Experience</p>
+            <ul>
+                    <a class="edit" href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a></li>
+                    <li><p class="tags">Cloud Engineer I<br><span>New Visions for Public Schools |<span> Mar 2022-Present</span></span>
+                        <br><p id="more-about">Automated infrastructure builds using Terraform, reducing the amount of time needed to manually deploy  resources
+                            </p><p id="more-about">Hosted  data-team dbt docs site using Cloudflare for SSO, DNS, SSL and CDNs  deployed using Terraform
+                            </p><p id="more-about">Developed CI/CD pipeline to automate the import, management, and creation of Jira issues of security findings by Veracode agent-based scans
+                            </p><p id="more-about">Centralized and streamlined infrastructure management across multiple environments using Ansible
+                            </p><p id="more-about">Developed our departments object storage infrastructure, IAM policies/groups/roles, Ec2 VMs (instance profiles, images, VPCs, launch templates), and cloud monitoring using AWS CDK for a new client’s deployment of our product
+                            </p><p id="more-about">Drafted Business Continuity Plan and Disaster Recovery Plan as part of our audit by the NYC Dept. Of Ed.
+                            </p><p id="more-about">Built out our departments service ticket systems using Jira Service Desk to receive, track, manage, and resolve department  requests
+                        </p>
+                    <a class="edit" href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a></li>
+                    <li><p class="tags">DevSecOps Resident<br><span>New Visions for Public Schools |<span> Oct 2021 - Mar 2022</span></span>
+                        <br><p id="more-about">Created new Infrastructure Onboarding Security New Hire presentation and led training for new hires
+                            </p><p id="more-about">Migrated cron jobs to Apache Airflow to get better management and visibility of application logging and alerts
+                            </p><p id="more-about">Engineered the configuration and deployment of AWS resources using Boto3
+                            </p><p id="more-about">Generated software bill of materials using Veracode API, to provide software engineers visibility into projects dependencies, increasing the security of the software supply chain                       
+                        </p>
+                    <a class="edit" href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a></li>
+                    <li><p class="tags">Consultant<br><span>The World Bank Group, Digital Malawi Project, Lilongwe Malawi |<span> Feb 2021 - Nov 2021</span></span>
+                        </p><p id="more-about">Provided Policy recommendations and performed a GAP Analysis & Security Audit                  
+                        <br><p id="more-about">Wrote  Disaster Recovery Plan
+                        </p>
+            </ul>
+        </div>
+        <div class="card">
+            <p><i class="fas fa-graduation-cap stroke-transparent"></i>&nbsp;&nbsp;&nbsp;Education</p>
+            <ul>
+                <li><p class="tags">Rutgers Univerity<br><span>International Studies, M.P.P | <span>May, 2012</span></span></p>
+                    <a class="edit" href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a></li>
+                    <li><p class="tags">Rutgers University<br><span>Economics, BsC, | <span>2003-2007</span></span></p>
+                        <a class="edit" href="#"><i class="fas fa-pen stroke-transparent-blue"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <script>
+              fetch('https://p9muphla9c.execute-api.us-east-1.amazonaws.com/prod/getcount', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': 'http://eacheampong.work',
+                    'Access-Control-Allow-Headers': 'Content-Type',
+                    'Access-Control-Allow-Methods': 'POST,GET'
+                }
+              })
+              .then(response => response.json())
+              .then(response => document.getElementById("counter").innerHTML = (JSON.stringify(response)))
+            </script>
+                
+        </body>
+        </html>
