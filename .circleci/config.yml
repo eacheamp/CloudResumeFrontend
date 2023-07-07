@@ -13,7 +13,7 @@ jobs:
       - checkout
       - run:
           command: >-
-            echo $AWS_CLOUDRESUMEFRONTEND_TFVARS | base64 -d > $HOME/terraform.tfvars
+            echo $AWS_CLOUDRESUMEBACKEND_TFVARS | base64 -d > $HOME/terraform.tfvars
           name: Create terraform.tfvars variable file
           context: terraform
       # - run:
@@ -23,7 +23,7 @@ jobs:
       - run:
           command: >-
             cp $HOME/terraform.tfvars .
-          name: Cpy tfvars file to project directory
+          name: Cppy tfvars file to project directory
       - terraform/validate:
           path: .
       - terraform/init:
