@@ -32,11 +32,19 @@ jobs:
       - terraform/apply:
           var_file: terraform.tfvars
           path: .
+      - run:
+          name: Get S3 Bucket Name
+          command: |
+            # Get the S3 bucket name from Terraform output and store it in the BUCKET_NAME variable
+            BUCKET_NAME=$(terraform output -raw website_bucket_name)
+            echo "S3 Bucket Name: $BUCKET_NAME"
+            echo "export BUCKET_NAME=$BUCKET_NAME" >> $BASH_ENV
       - aws-s3/copy:
-          from: project/website
-          to: s3://$(terraform output -raw website_bucket_name)/ --recursive
-workflows:
-  test-deploy:
+          from: website/
+          to: s3://$BUCKET_NAME/
+
+
+test-deploy:
     jobs:
       - deploy_backend:
           context:
