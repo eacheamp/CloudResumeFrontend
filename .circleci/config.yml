@@ -38,10 +38,10 @@ jobs:
             # Get the S3 bucket name from Terraform output and store it in the BUCKET_NAME variable
             BUCKET_NAME=$(terraform output -raw website_bucket_name)
             echo "S3 Bucket Name: $BUCKET_NAME"
-            echo "export BUCKET_NAME=$BUCKET_NAME" >> $BASH_ENV
+            echo "BUCKET_NAME=$BUCKET_NAME" >> $BASH_ENV
       - aws-s3/copy:
           from: website/
-          to: s3://${BUCKET_NAME}/
+          to: "s3://$BUCKET_NAME/"
 
 
 workflows:
