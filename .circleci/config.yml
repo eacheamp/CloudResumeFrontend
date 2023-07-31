@@ -29,13 +29,13 @@ jobs:
       - terraform/plan:
           var_file: terraform.tfvars
           path: .
+      - terraform/apply:
+          var_file: terraform.tfvars
+          path: .
       - aws-s3/copy:
           arguments: '--dryrun'
           from: website/
           to: s3://$(terraform output -raw website_bucket_name)
-      - terraform/apply:
-          var_file: terraform.tfvars
-          path: .
 workflows:
   test-deploy:
     jobs:
