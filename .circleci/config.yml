@@ -33,7 +33,7 @@ jobs:
           var_file: terraform.tfvars
           path: .
       - aws-s3/copy:
-          from: /root/project/website/
+          from: website
           to: s3://$(terraform output -raw website_bucket_name)/ --recursive
 workflows:
   test-deploy:
