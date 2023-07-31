@@ -1,13 +1,11 @@
 
 version: '2.1'
 orbs:
-  terraform: circleci/terraform@3.1
-  aws-s3: circleci/aws-s3@3.1.1
-  
+  terraform: circleci/terraform@3.1  
 
 jobs:
   # Decode the tfvars environment variable and save to workspace
-  deploy_backend:
+  deploy_terraform:
     environment:
       CLOUDFLARE_API_TOKEN: "${CLOUDFLARE_API_TOKEN}"
     executor: terraform/default
@@ -32,24 +30,49 @@ jobs:
       - terraform/apply:
           var_file: terraform.tfvars
           path: .
+      - save_cache:
+          key: terraform-cache-{{ checksum "terraform/terraform.tfstate" }}
+          paths:
+            - terraform/.terraform
+      - store_artifacts:
+          path: website/
+          destination: website_artifacts
+  aws_s3_copy:
+    docker:
+      - image: circleci/python:3.8  
+    steps:
+      - checkout  #
+      - attach_workspace:
+          at: /tmp/workspace
+
       - run:
           name: Get S3 Bucket Name
           command: |
             # Get the S3 bucket name from Terraform output and store it in the BUCKET_NAME variable
-            BUCKET_NAME=$(terraform output -raw website_bucket_name)
+            BUCKET_NAME=$(cat /tmp/workspace/terraform.tfstate | jq -r '.outputs.website_bucket_name.value')
             echo "S3 Bucket Name: $BUCKET_NAME"
-            echo "BUCKET_NAME=$BUCKET_NAME" >> $BASH_ENV
-      - aws-s3/copy:
-          from: website/
-          to: "s3://${BUCKET_NAME}/"
+            echo "export BUCKET_NAME=$BUCKET_NAME" >> $BASH_ENV
 
+      - run:
+          name: Copy website to S3
+          command: |
+            # Install AWS CLI (if not already installed)
+            pip install awscli --upgrade --user
+
+            # Get the S3 bucket name from the environment variable
+            BUCKET_NAME=$BUCKET_NAME
+
+            # Copy the 'website/' folder to the S3 bucket recursively using AWS CLI
+            aws s3 cp website/ s3://$BUCKET_NAME/ --recursive
 
 workflows:
-  test-deploy:
+  deploy:
     jobs:
-      - deploy_backend:
+      - deploy_terraform:
+        context:
+          - terraform
+      - aws_s3_copy:
           context:
             - terraform
-      
-      
-    
+        requires:
+          - deploy_terraform
