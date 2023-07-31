@@ -33,7 +33,6 @@ jobs:
           var_file: terraform.tfvars
           path: .
       - aws-s3/copy:
-          arguments: '--dryrun'
           from: website/
           to: s3://$(terraform output -raw website_bucket_name)
 workflows:
