@@ -13,28 +13,31 @@ jobs:
     executor: terraform/default
     steps:
       - checkout
+      # - run:
+      #     command: >-
+      #       echo $AWS_CLOUDRESUME_TERRAFORMTFVARS_FILE | base64 -d > $HOME/terraform.tfvars
+      #     name: Create terraform.tfvars variable file
+      #     context: terraform
+      # - run:
+      #     command: >-
+      #       cp $HOME/terraform.tfvars .
+      #     name: Cpy tfvars file to project directory
+      # - terraform/validate:
+      #     path: .
+      # - terraform/init:
+      #     path: .
+      # - terraform/plan:
+      #     var_file: terraform.tfvars
+      #     path: .
+      # - terraform/apply:
+      #     var_file: terraform.tfvars
+      #     path: .
       - run:
           command: >-
-            echo $AWS_CLOUDRESUME_TERRAFORMTFVARS_FILE | base64 -d > $HOME/terraform.tfvars
-          name: Create terraform.tfvars variable file
-          context: terraform
-      - run:
-          command: >-
-            cp $HOME/terraform.tfvars .
-          name: Cpy tfvars file to project directory
-      - terraform/validate:
-          path: .
-      - terraform/init:
-          path: .
-      - terraform/plan:
-          var_file: terraform.tfvars
-          path: .
-      - terraform/apply:
-          var_file: terraform.tfvars
-          path: .
-      - aws-s3/copy:
-          from: ../website/
-          to: s3://$(terraform output -raw website_bucket_name)/ --recursive
+            ls -la
+      # - aws-s3/copy:
+      #     from: ../website/
+      #     to: s3://$(terraform output -raw website_bucket_name)/ --recursive
 workflows:
   test-deploy:
     jobs:
