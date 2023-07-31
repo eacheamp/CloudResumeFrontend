@@ -44,7 +44,8 @@ jobs:
           to: s3://$BUCKET_NAME/
 
 
-test-deploy:
+workflows:
+  test-deploy:
     jobs:
       - deploy_backend:
           context:
