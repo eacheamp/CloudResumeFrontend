@@ -6,11 +6,20 @@ orbs:
 jobs:
   # Decode the tfvars environment variable and save to workspace
   deploy_terraform:
+    docker:
+      - image: circleci/python:3.8
     environment:
       CLOUDFLARE_API_TOKEN: "${CLOUDFLARE_API_TOKEN}"
     executor: terraform/default
     steps:
       - checkout
+      # Install AWS CLI (optional if not already installed in your base image)
+      - run:
+          name: Install AWS CLI
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
       - run:
           command: >-
             echo $AWS_CLOUDRESUME_TERRAFORMTFVARS_FILE | base64 -d > $HOME/terraform.tfvars
@@ -30,45 +39,12 @@ jobs:
       - terraform/apply:
           var_file: terraform.tfvars
           path: .
-      # Save Terraform output to a file
       - run:
-          name: Save Terraform Output
-          command: |
-            mkdir -p ${CIRCLE_WORKING_DIRECTORY}/path/to/artifacts
-            terraform output -json > ${CIRCLE_WORKING_DIRECTORY}/path/to/artifacts/terraform_output.json
-      # Store the Terraform output file as an artifact
-      - store_artifacts:
-          path: path/to/artifacts
-  aws_s3_copy:
-    docker:
-      - image: circleci/python:3.8  
-    steps:
-      - checkout 
-      # Restore the Terraform output artifact from the previous job
-      - attach_workspace:
-          at: ${CIRCLE_WORKING_DIRECTORY}
-      - run:
-          name: Display Terraform Output
-          command: |
-            cat path/to/artifacts/terraform_output.json
-      # - run:
-      #     name: Get S3 Bucket Name
-      #     command: |
-      #       # Get the S3 bucket name from Terraform output and store it in the BUCKET_NAME variable
-      #       BUCKET_NAME=$(terraform output -raw website_bucket_name)
-      #       echo "S3 Bucket Name: $BUCKET_NAME"
-      #       echo "export BUCKET_NAME=$BUCKET_NAME" >> $BASH_ENV
-      # - run:
-      #     name: Copy website to S3
-      #     command: |
-      #       # Install AWS CLI (if not already installed)
-      #       pip install awscli --upgrade --user
+          command: >-
+            aws s3 cp website/ s3://$(terraform output -raw website_bucket_name)/ --recursive
+          name: Cpy tfvars file to project directory
+  
 
-      #       # Get the S3 bucket name from the environment variable
-      #       BUCKET_NAME=$BUCKET_NAME
-
-      #       # Copy the 'website/' folder to the S3 bucket recursively using AWS CLI
-      #       aws s3 cp website/ s3://$BUCKET_NAME/ --recursive
 
 workflows:
   test-deploy:
@@ -76,8 +52,4 @@ workflows:
       - deploy_terraform:
           context:
             - terraform
-      - aws_s3_copy:
-          context:
-            - terraform
-          requires:
-            - deploy_terraform
+
