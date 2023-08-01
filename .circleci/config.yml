@@ -47,6 +47,10 @@ jobs:
       # Restore the Terraform output artifact from the previous job
       - attach_workspace:
           at: .
+    # Create the necessary directories before accessing the file
+      - run:
+          name: Create Directories
+          command: mkdir -p path/to/artifacts
       - run:
           name: Display Terraform Output
           command: |
