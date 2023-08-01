@@ -31,12 +31,6 @@ jobs:
           var_file: terraform.tfvars
           path: .
           out: "terraform.tfplan"
-       # Extract the value of 'website_bucket_name' output and set it as an environment variable
-      - run:
-          name: Set environment variable
-          command: echo "WEBSITE_BUCKET_NAME=$(terraform show -json terraform.tfstate | jq -r '.values.root_module.resources[] | select(.address == \"aws_s3_bucket.website\") | .values.bucket')" >> $BASH_ENV
-          environment:
-            BASH_ENV: $BASH_ENV
       - terraform/apply:
           var_file: terraform.tfvars
           path: .
@@ -53,7 +47,7 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          command: aws s3 cp website/ s3://WEBSITE_BUCKET_NAME)/ --recursive
+          command: aws s3 cp website/ s3://eacheampong.work/ --recursive
 
   
 
