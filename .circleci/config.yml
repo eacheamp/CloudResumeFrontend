@@ -30,39 +30,45 @@ jobs:
       - terraform/apply:
           var_file: terraform.tfvars
           path: .
-      # - save_cache:
-      #     key: terraform-cache-{{ checksum "terraform/terraform.tfstate" }}
-      #     paths:
-      #       - terraform/.terraform
+      # Save Terraform output to a file
+      - run:
+          name: Save Terraform Output
+          command: |
+            mkdir -p path/to/artifacts
+            terraform output -json > path/to/artifacts/terraform_output.json
+      # Store the Terraform output file as an artifact
       - store_artifacts:
-          path: website/
-          destination: website_artifacts
+          path: path/to/artifacts
   aws_s3_copy:
     docker:
       - image: circleci/python:3.8  
     steps:
       - checkout 
+      # Restore the Terraform output artifact from the previous job
       - attach_workspace:
-          at: /tmp/workspace
-
+          at: .
       - run:
-          name: Get S3 Bucket Name
+          name: Display Terraform Output
           command: |
-            # Get the S3 bucket name from Terraform output and store it in the BUCKET_NAME variable
-            BUCKET_NAME=$(terraform output -raw website_bucket_name)
-            echo "S3 Bucket Name: $BUCKET_NAME"
-            echo "export BUCKET_NAME=$BUCKET_NAME" >> $BASH_ENV
-      - run:
-          name: Copy website to S3
-          command: |
-            # Install AWS CLI (if not already installed)
-            pip install awscli --upgrade --user
+            cat path/to/artifacts/terraform_output.json
+      # - run:
+      #     name: Get S3 Bucket Name
+      #     command: |
+      #       # Get the S3 bucket name from Terraform output and store it in the BUCKET_NAME variable
+      #       BUCKET_NAME=$(terraform output -raw website_bucket_name)
+      #       echo "S3 Bucket Name: $BUCKET_NAME"
+      #       echo "export BUCKET_NAME=$BUCKET_NAME" >> $BASH_ENV
+      # - run:
+      #     name: Copy website to S3
+      #     command: |
+      #       # Install AWS CLI (if not already installed)
+      #       pip install awscli --upgrade --user
 
-            # Get the S3 bucket name from the environment variable
-            BUCKET_NAME=$BUCKET_NAME
+      #       # Get the S3 bucket name from the environment variable
+      #       BUCKET_NAME=$BUCKET_NAME
 
-            # Copy the 'website/' folder to the S3 bucket recursively using AWS CLI
-            aws s3 cp website/ s3://$BUCKET_NAME/ --recursive
+      #       # Copy the 'website/' folder to the S3 bucket recursively using AWS CLI
+      #       aws s3 cp website/ s3://$BUCKET_NAME/ --recursive
 
 workflows:
   test-deploy:
