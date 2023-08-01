@@ -1,23 +1,19 @@
 
 version: '2.1'
+orbs:
+  terraform: circleci/terraform@3.2.1
+  aws-cli: circleci/aws-cli@4.0.0  
+
 
 jobs:
   # Decode the tfvars environment variable and save to workspace
   deploy_terraform:
-    docker:
-      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    executor: terraform/default
     environment:
       CLOUDFLARE_API_TOKEN: "${CLOUDFLARE_API_TOKEN}"
     # executor: terraform/default
     steps:
       - checkout
-      # Install AWS CLI (optional if not already installed in your base image)
-      - run:
-          name: Install AWS CLI
-          command: |
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
       - run:
           command: >-
             echo $AWS_CLOUDRESUME_TERRAFORMTFVARS_FILE | base64 -d > $HOME/terraform.tfvars
@@ -27,24 +23,32 @@ jobs:
           command: >-
             cp $HOME/terraform.tfvars .
           name: Cpy tfvars file to project directory
-      - run:
-          name: terraform validate, init & plan 
-          command: |
-            terraform validate
-            terraform init 
-            terraform plan -out -var-file terraform.tfvars
-      - run:
-          name: terraform apply
-          command: |
-            terraform apply -var-file terraform.tfvars
+      - terraform/validate:
+          path: .
+      - terraform/init:
+          path: .
+      - terraform/plan:
+          var_file: terraform.tfvars
+          path: .
+          out: "terraform.tfplan"
+      - terraform/apply:
+          var_file: terraform.tfvars
+          path: .
+      # Save the Terraform plan output to a workspace
       - persist_to_workspace:
           root: .
           paths:
-            - .
+            - "terraform.tfplan"
+  awss3copy:
+    executor: aws-cli/default
+    steps:
+      - checkout
+      # Restore the Terraform plan output and AWS credentials from the workspace
+      - attach_workspace:
+          at: .
       - run:
-          command: >-
-            aws s3 cp website/ s3://$(terraform output -raw website_bucket_name)/ --recursive
-          name: Cpy tfvars file to project directory
+          command: aws s3 cp website/ s3://$(terraform output -raw website_bucket_name)/ --recursive
+
   
 
 
@@ -52,6 +56,9 @@ workflows:
   test-deploy:
     jobs:
       - deploy_terraform:
+          context:
+            - terraform
+      - awss3copy:
           context:
             - terraform
 
