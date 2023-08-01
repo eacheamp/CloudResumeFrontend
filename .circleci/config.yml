@@ -34,7 +34,7 @@ jobs:
       - run:
           name: Save Terraform Output
           command: |
-            mkdir -p path/to/artifacts
+            mkdir -p ${CIRCLE_WORKING_DIRECTORY}/path/to/artifacts
             terraform output -json > ${CIRCLE_WORKING_DIRECTORY}/path/to/artifacts/terraform_output.json
       # Store the Terraform output file as an artifact
       - store_artifacts:
