@@ -35,7 +35,7 @@ jobs:
           name: Save Terraform Output
           command: |
             mkdir -p path/to/artifacts
-            terraform output -json > path/to/artifacts/terraform_output.json
+            terraform output -json > ${CIRCLE_WORKING_DIRECTORY}/path/to/artifacts/terraform_output.json
       # Store the Terraform output file as an artifact
       - store_artifacts:
           path: path/to/artifacts
@@ -46,11 +46,7 @@ jobs:
       - checkout 
       # Restore the Terraform output artifact from the previous job
       - attach_workspace:
-          at: .
-    # Create the necessary directories before accessing the file
-      - run:
-          name: Create Directories
-          command: mkdir -p path/to/artifacts
+          at: ${CIRCLE_WORKING_DIRECTORY}
       - run:
           name: Display Terraform Output
           command: |
