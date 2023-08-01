@@ -66,13 +66,13 @@ jobs:
             aws s3 cp website/ s3://$BUCKET_NAME/ --recursive
 
 workflows:
-  deploy:
+  test-deploy:
     jobs:
       - deploy_terraform:
-        context:
-          - terraform
+          context:
+            - terraform
       - aws_s3_copy:
           context:
             - terraform
-        requires:
-          - deploy_terraform
+          requires:
+            - deploy_terraform
