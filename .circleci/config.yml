@@ -30,10 +30,10 @@ jobs:
       - terraform/apply:
           var_file: terraform.tfvars
           path: .
-      - save_cache:
-          key: terraform-cache-{{ checksum "terraform/terraform.tfstate" }}
-          paths:
-            - terraform/.terraform
+      # - save_cache:
+      #     key: terraform-cache-{{ checksum "terraform/terraform.tfstate" }}
+      #     paths:
+      #       - terraform/.terraform
       - store_artifacts:
           path: website/
           destination: website_artifacts
@@ -41,7 +41,7 @@ jobs:
     docker:
       - image: circleci/python:3.8  
     steps:
-      - checkout  #
+      - checkout 
       - attach_workspace:
           at: /tmp/workspace
 
@@ -49,10 +49,9 @@ jobs:
           name: Get S3 Bucket Name
           command: |
             # Get the S3 bucket name from Terraform output and store it in the BUCKET_NAME variable
-            BUCKET_NAME=$(cat /tmp/workspace/terraform.tfstate | jq -r '.outputs.website_bucket_name.value')
+            BUCKET_NAME=$(terraform output -raw website_bucket_name)
             echo "S3 Bucket Name: $BUCKET_NAME"
             echo "export BUCKET_NAME=$BUCKET_NAME" >> $BASH_ENV
-
       - run:
           name: Copy website to S3
           command: |
