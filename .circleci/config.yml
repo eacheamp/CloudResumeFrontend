@@ -10,7 +10,7 @@ jobs:
       - image: circleci/python:3.8
     environment:
       CLOUDFLARE_API_TOKEN: "${CLOUDFLARE_API_TOKEN}"
-    executor: terraform/default
+    # executor: terraform/default
     steps:
       - checkout
       # Install AWS CLI (optional if not already installed in your base image)
