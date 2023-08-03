@@ -2,18 +2,17 @@
 version: '2.1'
 orbs:
   terraform: circleci/terraform@3.2.1
-  aws-cli: circleci/aws-cli@4.0.0  
-
+  aws-cli: circleci/aws-cli@4.0.0
 
 jobs:
-  # Decode the tfvars environment variable and save to workspace
+
   deploy_terraform:
     executor: terraform/default
     environment:
       CLOUDFLARE_API_TOKEN: "${CLOUDFLARE_API_TOKEN}"
-    # executor: terraform/default
     steps:
       - checkout
+      # Decode the tfvars environment variable and save to workspace
       - run:
           command: >-
             echo $AWS_CLOUDRESUME_TERRAFORMTFVARS_FILE | base64 -d > $HOME/terraform.tfvars
@@ -46,8 +45,11 @@ jobs:
       # Restore the Terraform plan output and AWS credentials from the workspace
       - attach_workspace:
           at: .
-      - run:
-          command: aws s3 cp website/ s3://eacheampong.work/ --recursive
+       - aws-s3/copy:
+          arguments: '--recursive'
+          from: website/
+          install-aws-cli: false
+          to: s3://eacheampong.work
 
   
 
