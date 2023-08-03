@@ -2,10 +2,8 @@
 version: '2.1'
 orbs:
   terraform: circleci/terraform@3.2.1
-  aws-cli: circleci/aws-cli@4.0.0
-
+  aws-s3: circleci/aws-s3@3.1.1
 jobs:
-
   deploy_terraform:
     executor: terraform/default
     environment:
@@ -39,13 +37,13 @@ jobs:
           paths:
             - "terraform.tfplan"
   awss3copy:
-    executor: aws-cli/default
+    docker:
+      - image: cimg/python:3.10
     steps:
       - checkout
-      # Restore the Terraform plan output and AWS credentials from the workspace
       - attach_workspace:
           at: .
-       - aws-s3/copy:
+      - aws-s3/copy:
           arguments: '--recursive'
           from: website/
           install-aws-cli: false
