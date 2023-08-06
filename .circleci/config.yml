@@ -48,11 +48,11 @@ jobs:
               ls -la          
           name: List files and folders
           context: terraform
-      - aws-s3/copy:
-          arguments: '--recursive'
-          from: website/
-          install-aws-cli: false
-          to: s3://eacheampong.work
+      # - aws-s3/copy:
+      #     arguments: '--recursive'
+      #     from: website/
+      #     install-aws-cli: false
+      #     to: s3://eacheampong.work
  
 
 
