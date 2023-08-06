@@ -43,6 +43,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: echo "export PATH='$PATH:/root/.local/bin'" >> $BASH_ENV
       - aws-s3/copy:
           arguments: '--recursive'
           from: website/
