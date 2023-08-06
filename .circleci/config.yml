@@ -45,7 +45,7 @@ jobs:
           at: .
       - run:
           command: >-
-              ls -la website       
+              ls -la website/       
           name: List files and folders website directory
           context: terraform
       # - aws-s3/copy:
