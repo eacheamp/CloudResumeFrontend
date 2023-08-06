@@ -43,13 +43,17 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run:
+          command: >-
+              ls -la          
+          name: List files and folders
+          context: terraform
       - aws-s3/copy:
           arguments: '--recursive'
           from: website/
           install-aws-cli: false
           to: s3://eacheampong.work
-
-  
+ 
 
 
 workflows:
