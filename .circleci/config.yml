@@ -45,8 +45,8 @@ jobs:
           at: .
       - run:
           command: >-
-              ls -la          
-          name: List files and folders
+              ls -la website       
+          name: List files and folders website directory
           context: terraform
       # - aws-s3/copy:
       #     arguments: '--recursive'
