@@ -36,19 +36,18 @@ jobs:
           root: .
           paths:
             - "terraform.tfplan"
-  awss3copy:
-    docker:
-      - image: cimg/python:3.10
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - aws-s3/copy:
-          install-aws-cli: true
-          arguments: '--recursive'
-          from: website/
-          install-aws-cli: false
-          to: s3://eacheampong.work
+  # awss3copy:
+  #   docker:
+  #     - image: cimg/python:3.10
+  #   steps:
+  #     - checkout
+  #     - attach_workspace:
+  #         at: .
+  #     - aws-s3/copy:
+  #         arguments: '--recursive'
+  #         from: website/
+  #         install-aws-cli: false
+  #         to: s3://eacheampong.work
  
 workflows:
   test-deploy:
@@ -56,9 +55,9 @@ workflows:
       - deploy_terraform:
           context:
             - terraform
-      - awss3copy:
-          context:
-            - terraform
-          requires:
-            - deploy_terraform
+      # - awss3copy:
+      #     context:
+      #       - terraform
+      #     requires:
+      #       - deploy_terraform
 
