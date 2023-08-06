@@ -43,15 +43,13 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: echo "export PATH='$PATH:/root/.local/bin'" >> $BASH_ENV
       - aws-s3/copy:
+          install-aws-cli: true
           arguments: '--recursive'
           from: website/
           install-aws-cli: false
           to: s3://eacheampong.work
  
-
-
 workflows:
   test-deploy:
     jobs:
