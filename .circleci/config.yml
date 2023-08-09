@@ -47,7 +47,7 @@ jobs:
           arguments: '--recursive'
           from: website/
           install-aws-cli: true
-          to: s3://eacheampong.work
+          to: "${AWS_WEBSITE_BUCKET}"
  
 workflows:
   test-deploy:
