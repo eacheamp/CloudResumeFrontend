@@ -4,7 +4,7 @@ html{
     background: whitesmoke;
 }
 /* unvisited link */
-a:link { color: #0d7979; }
+a{ color: #0d7979; }
 
 /* visited link */
 a:visited { color: #808080; }
