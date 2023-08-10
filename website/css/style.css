@@ -3,17 +3,26 @@ html{
     font-family: 'Open Sans',sans-serif;
     background: whitesmoke;
 }
+
 /* unvisited link */
-a{ color: #0d7979; }
+#links a {
+    /* Your styling properties here */
+    color: #0d7979;
+    text-decoration: underline;
+    font-size: 10px;
+  }
+  
+/* unvisited link */
+
 
 /* visited link */
-a:visited { color: #808080; }
+#links a:visited { color: #808080; }
 
 /* mouse over link */
-a:hover { color: #000088; }
+#links a:hover { color: #000088; }
 
 /* selected link */
-a:active { color: #0000ff; }
+#links a:active { color: #0000ff; }
 
 hr{
     background: grey;
