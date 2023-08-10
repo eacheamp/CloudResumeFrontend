@@ -10,6 +10,11 @@ html{
     color: #0d7979;
     text-decoration: underline;
     font-size: 10px;
+    top:0;
+    left:0;
+    height: 100%;
+    width: 100%;
+    display: none;
   }
   
 /* unvisited link */
