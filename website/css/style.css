@@ -3,17 +3,16 @@ html{
     font-family: 'Open Sans',sans-serif;
     background: whitesmoke;
 }
-/* unvisited link */
-a{ color: #0d7979; }
+
 
 /* visited link */
-a:visited { color: #808080; }
+#links a:visited { color: #808080; }
 
 /* mouse over link */
-a:hover { color: #000088; }
+#links a:hover { color:  #0d7979;; }
 
 /* selected link */
-a:active { color: #0000ff; }
+#links a:active { color: #0d7979;}
 
 hr{
     background: grey;
@@ -57,6 +56,11 @@ hr{
     width: 100%;
     display: none;
 }
+#personal-link > a{
+    color: #0d7979;
+    font-size: 10.5px;
+}
+
 #image > a > i{
     -webkit-text-stroke: 1px #ffffffdd;
     padding: 40%;
@@ -87,6 +91,11 @@ hr{
     /* font-weight: bold !important; */
     font-family: 'Cutive Mono',monospace;
 }
+#personal-links{
+    color: #0d7979;
+    font-size: 10.5px;
+}
+
 #college,#email,#year-graduation,#education,#more-about,#telephone,#fax,#counter{
     color: #555;
     font-size: 13.5px;
