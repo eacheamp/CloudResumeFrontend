@@ -56,6 +56,11 @@ hr{
     width: 100%;
     display: none;
 }
+#personal-link > a{
+    color: #0d7979;
+    font-size: 10.5px;
+}
+
 #image > a > i{
     -webkit-text-stroke: 1px #ffffffdd;
     padding: 40%;
@@ -88,8 +93,9 @@ hr{
 }
 #personal-links{
     color: #0d7979;
-    font-size: 12.5px;
+    font-size: 10.5px;
 }
+
 #college,#email,#year-graduation,#education,#more-about,#telephone,#fax,#counter{
     color: #555;
     font-size: 13.5px;
