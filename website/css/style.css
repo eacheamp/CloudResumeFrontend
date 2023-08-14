@@ -7,7 +7,7 @@ html{
 /* unvisited link */
 #links a {
     /* Your styling properties here */
-    color: #0d7979;
+   
     text-decoration: underline;
     font-size: 10px;
     top:0;
@@ -106,6 +106,10 @@ hr{
     font-size: 10px !important;
     /* font-weight: bold !important; */
     font-family: 'Cutive Mono',monospace;
+}
+#personal-links{
+    color: #0d7979;
+    font-size: 12.5px;
 }
 #college,#email,#year-graduation,#education,#more-about,#telephone,#fax,#counter{
     color: #555;
