@@ -4,36 +4,15 @@ html{
     background: whitesmoke;
 }
 
-/* unvisited link */
-#links a {
-    /* Your styling properties here */
-   
-    text-decoration: underline;
-    font-size: 10px;
-    top:0;
-    left:0;
-    height: 100%;
-    width: 100%;
-    display: none;
-  }
-  
-/* unvisited link */
-
 
 /* visited link */
 #links a:visited { color: #808080; }
 
 /* mouse over link */
-#links a:hover { color: #000088; }
+#links a:hover { color:  #0d7979;; }
 
 /* selected link */
-#links a:active { color: #0000ff; }
-
-ul.no-bullets {
-    list-style-type: none; /* Remove bullets */
-    padding: 0; /* Remove padding */
-    margin: 0; /* Remove margins */
-  }
+#links a:active { color: #0d7979;}
 
 hr{
     background: grey;
